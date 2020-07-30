@@ -1,8 +1,8 @@
 # OdinRBTicTacToe
 
-______________________________________________\n
-|Copyright MiDDiz - 2020 All Rights Reserved.|\n
-|____________________________________________|\n
+
+|Copyright MiDDiz - 2020 All Rights Reserved.|
+
 
 Part of The Odin Project's curriculum. At the Ruby on Rails track!
 If you want to see more of my work check me out on my socials: 
