@@ -1,24 +1,10 @@
-# Tic Tac Toe
-#    x | o | x
-#   ---|---|---
-#    x | x | x
-#   ---|---|---
-#    x | x | x
-#
-#HOW TO DISPLAY
-
-
-
-
 class Player
   attr_accessor :points
   attr_reader :sign, :name, :game_handler
 
   @@player_count = 0
   def initialize(name, sign, game_handler)
-    if @@player_count >= 2
-      raise "More than two instances of a player are not allowed."
-    end
+    raise "More than two instances of a player are not allowed." if @@player_count >= 2
 
     @name = name
     @game_handler = game_handler
@@ -31,7 +17,7 @@ class Player
   private
 
   def set_sign(sign)
-    if @@player_count == 0 # First player
+    if @@player_count.zero? # First player
       if sign.chars.length == 1
         return sign
       else
@@ -48,7 +34,6 @@ class Player
         end
       end
     end
-
   end
 end
 
@@ -56,7 +41,7 @@ class GameBoard
   attr_accessor :board, :playing
   attr_reader :game_object
 
-  def initialize game_object
+  def initialize(game_object)
     @board = [%w[- - -], %w[- - -], %w[- - -]]
     @game_object = game_object
   end
@@ -73,9 +58,7 @@ class GameBoard
       if board[spot[0]][spot[1]] == "-"
         good_input = true
         board[spot[0]][spot[1]] = player.sign
-
         game_object.change_current_player
-
         if check_for_win(player)
           self.win_event(player)
         end
@@ -86,9 +69,7 @@ class GameBoard
   end
 
   def display(player1, player2)
-
     game_object.clear_console
-
     turn_mark = ""
     puts "#{player1.name}: #{player1.sign} #{  turn_mark if game_object.current_player == player1 } \t\tPoints: #{player1.points}"
     puts "#{player2.name}: #{player2.sign} #{  turn_mark if game_object.current_player == player2 } \t\tPoints: #{player2.points}"
@@ -102,7 +83,6 @@ class GameBoard
     puts "#{game_object.current_player.name}'s turn!"
     puts "Please select a tile to play typing first the row number, then the column number"
     puts "For example: 32"
-
   end
 
   protected
@@ -110,17 +90,16 @@ class GameBoard
   def get_spot
     begin
       user_input = gets.chomp
-      unless ((user_input == '11' or user_input == '12' or user_input == '13') \
+      unless (user_input == '11' or user_input == '12' or user_input == '13') \
            or (user_input == '21' or user_input == '22' or user_input == '23') \
-           or (user_input == '31' or user_input == '32' or user_input == '33'))
+           or (user_input == '31' or user_input == '32' or user_input == '33')
         raise "Invalid Input. Please try again!"
       end
     rescue StandardError => e
       puts "\n#{e}"
       retry
     end
-    p [user_input[0].to_i - 1,user_input[1].to_i - 1]
-    return [user_input[0].to_i - 1,user_input[1].to_i - 1]
+    [user_input[0].to_i - 1, user_input[1].to_i - 1]
   end
 
   # We are checking if the value of each element in the index column has the same value as player.sign
@@ -136,7 +115,7 @@ class GameBoard
         return false
       end
     end
-    return true
+    true
   end
 
   def check_row(index, player)
@@ -146,11 +125,10 @@ class GameBoard
         return false
       end
     end
-    return true
+    true
   end
 
   def check_cross(index, player)
-    #TODO FIX BUG CROSS
     if index == 0
       i = 0
       board.each do |row|
@@ -181,8 +159,6 @@ class GameBoard
   end
 
   def win_event(player)
-    #TODO code here
-
     self.playing = false
     puts ""
     puts "#{player.name} has won!"
@@ -195,7 +171,6 @@ class GameBoard
     end
     game_object.clear_console
   end
-
 end
 
 class GameHandler
@@ -211,7 +186,7 @@ class GameHandler
   public
 
   def change_current_player
-    if (self.current_player == players[0])
+    if self.current_player == players[0]
       self.current_player = players[1]
     else
       self.current_player = players[0]
@@ -255,17 +230,15 @@ class GameHandler
 
       unless menu_handler(user_input)
         clear_console
-
         puts "Sorry, \"#{user_input}\" isn't a valid input."
         puts "Please enter a valid input..."
         sleep(2)
-
         clear_console
       end
     end
   end
 
-  def menu_handler option
+  def menu_handler(option)
     case option
     when 's'
       init_game
@@ -276,7 +249,7 @@ class GameHandler
     else
       return false
     end
-    return true
+    true
   end
 
 
@@ -291,7 +264,6 @@ class GameHandler
     end
   end
 
-  #TODO: MAKE CREDITS
   def credits
     clear_console
     puts "______________________________________________"
@@ -314,15 +286,10 @@ class GameHandler
     name = gets.chomp
     puts "If you want to use a personalized character in the game type it. Else just return blank (max one char)"
     sign = gets.chomp
-
     sleep(1)
     clear_console
-
-    return Player.new(name, sign, self)
-
+    Player.new(name, sign, self)
   end
 end
 
-
-
-game_object = GameHandler.new()
+game_object = GameHandler.new
