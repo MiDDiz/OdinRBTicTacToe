@@ -119,7 +119,6 @@ class GameBoard
       puts "\n#{e}"
       retry
     end
-    p [user_input[0].to_i - 1,user_input[1].to_i - 1]
     return [user_input[0].to_i - 1,user_input[1].to_i - 1]
   end
 
